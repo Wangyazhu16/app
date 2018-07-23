@@ -2,6 +2,13 @@
 library(mongolite)
 library(yaml)
 
+# validate token
+validate_token <- function(token){
+  
+  token == readLines(".secret.txt")
+  
+}
+
 write_to_db <- function(dat){
 
   mg <- est_mongo_conn("Mongo")
@@ -47,14 +54,19 @@ est_mongo_conn <- function(conn) {
 
 }
 
-result <- round(rnorm(10, mean = 10, sd = 5))
-name <- sample(1:26, size = 10)
-names(result) <- LETTERS[name]
+#' @post /test_docker
+function(req, token, x) {
+  
+  result <- round(rnorm(x, mean = 10, sd = 5))
+  
+  name <- sample(1:26, size = x)
+  
+  names(result) <- LETTERS[name]
+  
+  result <- as.data.frame(t(result))
+  
+  result$time <- Sys.time()
+  
+  write_to_db(result)
 
-result <- as.data.frame(t(result))
-# print(result)
-# write(result, file = "result.txt")
-write_to_db(result)
-
-
-
+}
