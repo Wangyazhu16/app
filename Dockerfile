@@ -1,20 +1,30 @@
 From rocker/tidyverse
 
-RUN apt-get update -qq && apt-get install -y \
-  git-core \
-  libssl-dev \
-  libcurl4-gnutls-dev \
-  # for Mongolite
-  libsasl2-dev \
-  # for DBI
-  libjpeg62-turbo-dev \
-  # change to China mirror
-  && R -e 'chooseCRANmirror(graphics = FALSE, ind = 37)' \
-  && install2.r --error \
+# Edit sources list
+COPY ./sources.list /etc/apt/
+
+RUN apt-get update && apt-get install -y \
+    --allow-unauthenticated \
+    --allow-downgrades \ 
+    sudo \
+    git-core \
+    libssl-dev \
+    libcurl3-gnutls=7.47.0-1ubuntu2.8 \
+    libcurl4-gnutls-dev \
+    # for Mongolite
+    libsasl2-2=2.1.26.dfsg1-14build1 \
+    libsasl2-dev \
+    # for DBI
+    libjpeg62-dev
+  
+RUN install2.r --error \
   --deps TRUE \
+  # change to China mirror
+  -r "http://mirrors.tuna.tsinghua.edu.cn/CRAN/" \
   mongolite \
   DBI \
-  yaml
+  yaml \
+  plumber 
 
 # Set working directory
 WORKDIR /app
@@ -22,4 +32,4 @@ WORKDIR /app
 # Add scripts and stuffs
 ADD . /app
 
-CMD ["Rscript", "test.R"]
+CMD ["Rscript", "--vanilla", "plumber.R", "&"]

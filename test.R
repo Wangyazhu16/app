@@ -59,6 +59,8 @@ function(req, token, x) {
   
   result <- round(rnorm(x, mean = 10, sd = 5))
   
+  cli::cat_rule("生成随机数", col = "green")
+  
   name <- sample(1:26, size = x)
   
   names(result) <- LETTERS[name]
@@ -66,6 +68,10 @@ function(req, token, x) {
   result <- as.data.frame(t(result))
   
   result$time <- Sys.time()
+  
+  cli::cat_rule("生成时间", col = "green")
+  
+  cli::cat_boxx(paste(names(result), result, sep = ":"), col = "green")
   
   write_to_db(result)
 
