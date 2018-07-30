@@ -5,3 +5,4 @@
 dbconfig.yaml
 .Rproj.user
 .secret.txt
+mongo/
