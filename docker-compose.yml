@@ -1,0 +1,23 @@
+version: "3"
+services:
+    some-mongo:
+        image: mongo
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: mongo
+            MONGO_INITDB_ROOT_PASSWORD: mongo
+        volumes:
+            - ./mongo:/data/db
+        ports:
+            - 27017:27017
+    test:
+        build: ./
+        restart: on-failure
+        depends_on: 
+            - some-mongo
+        environment:
+          WAIT_HOSTS: some-mongo:27017
+        ports:
+            - 8899:8899
+        command: ["Rscript", "--vanilla", "plumber.R", "&"]
+
