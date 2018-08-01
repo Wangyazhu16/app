@@ -1,3 +1,6 @@
 [submodule "tester"]
 	path = tester
 	url = git@github.com:Wangyazhu16/tester.git
+[submodule "validator"]
+	path = validator
+	url = git@github.com:Wangyazhu16/validator.git
