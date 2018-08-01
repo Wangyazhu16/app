@@ -6,18 +6,31 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: mongo
             MONGO_INITDB_ROOT_PASSWORD: mongo
-        volumes:
-            - ./mongo:/data/db
         ports:
             - 27017:27017
     test:
-        build: ./
-        restart: on-failure
-        depends_on: 
+        build: .
+        image: test
+        volumes:
+          - ./main.R:/main.R
+        depends_on:
             - some-mongo
         environment:
           WAIT_HOSTS: some-mongo:27017
-        ports:
-            - 8899:8899
         command: ["Rscript", "--vanilla", "plumber.R", "&"]
-
+    tester:
+        build: ./tester
+        image: tester:dev
+        command: ["sh", "run_test.sh"]
+        volumes:
+        - ./tester/main.R:/tester/main.R
+        environment:
+          WAIT_HOSTS: test:8899, some-mongo:27017
+    validator:
+        build: ./validator
+        image: validator:dev
+        ports:
+          - "8899:8899"
+        volumes:
+          - ./validator/main.R:/validator/main.R
+        command: ["Rscript", "--vanilla", "plumber.R"]
