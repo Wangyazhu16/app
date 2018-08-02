@@ -12,12 +12,12 @@ services:
         build: .
         image: test
         volumes:
-          - ./main.R:/main.R
+          - ./test.R:/test.R
         depends_on:
             - some-mongo
         environment:
           WAIT_HOSTS: some-mongo:27017
-        command: ["Rscript", "--vanilla", "plumber.R", "&"]
+        command: ["sh", "run_test.sh"]
     tester:
         build: ./tester
         image: tester:dev
