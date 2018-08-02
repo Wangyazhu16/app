@@ -2,7 +2,6 @@
 .RData
 .Rhistory
 .Rproj.user/
-dbconfig.yaml
 .Rproj.user
 .secret.txt
 mongo/
