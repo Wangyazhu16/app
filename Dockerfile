@@ -33,6 +33,6 @@ WORKDIR /app
 COPY . /app
 
 ## Add the wait script to the image
-RUN chmod +x /wait
+RUN chmod +x wait
 
 #CMD ["Rscript", "--vanilla", "plumber.R", "&"]
