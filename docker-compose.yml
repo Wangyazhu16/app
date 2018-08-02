@@ -12,7 +12,7 @@ services:
         build: .
         image: test
         volumes:
-          - ./test.R:/test.R
+          - ./main.R:/main.R
         depends_on:
             - some-mongo
         environment:
