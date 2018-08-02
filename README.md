@@ -1,9 +1,24 @@
-## docker创建镜像并写入docker中Mongdb数据库  
+## 生成随机数写入数据库并验证  
 
-1. 启动mongodb数据库镜像：  
-创建**some-mongo**文件并执行  
-2. 创建**Rscript**,**dbconfig.yaml**文件  
-3. 创建**Dockerfile**文件  
-4. 创建镜像：  
-在终端运行`docker build -t test .`
-4. 创建**demo.sh**文件并执行
+#### R + plumber + docker  
+
+##### 包含内容:
+1. 生成随机数接口test\_docker  
+2. 调用test\_docker生成20组随机数  
+3. 将生成的随机数存入docker中的MongoDB数据库  
+4. 验证数据数量接口validator  
+
+##### 获取方式  
+1. `git clone git@github.com:Wangyazhu16/app.git`  
+2. `cd app`  
+3. `git submodule init && git submodule update`  
+4. `docker-compose build`
+
+##### 开启服务  
+`docker-compose up`  
+
+##### 停止服务  
+`docker-compose stop`  
+
+##### 关闭服务  
+`docker-compose down`
